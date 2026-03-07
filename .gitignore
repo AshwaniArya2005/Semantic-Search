@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Dataset (large binary — download separately)
+dataset/*.tar.gz
+dataset/*.gz
+
+# Artifacts (generated at runtime)
+artifacts/faiss_index/
+artifacts/embeddings.npy
+artifacts/gmm_model.pkl
+artifacts/doc_metadata.pkl
+artifacts/pca_model.pkl
+
+# Keep plots in git for demo purposes
+!artifacts/cluster_plot.png
+!artifacts/cluster_probabilities.png
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

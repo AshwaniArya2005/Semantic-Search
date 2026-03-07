@@ -1,0 +1,32 @@
+# ─── Core ML & Embeddings ────────────────────────────────────────────────────
+sentence-transformers==5.2.3     # all-MiniLM-L6-v2 embeddings
+torch==2.10.0+cpu                # SentenceTransformer backend (CPU build)
+
+# ─── Vector Database ─────────────────────────────────────────────────────────
+faiss-cpu==1.13.2                # FAISS IVFFlat index for ANN retrieval
+
+# ─── Fuzzy Clustering ────────────────────────────────────────────────────────
+scikit-learn==1.8.0              # GaussianMixture (GMM) + PCA
+numpy==2.4.2
+scipy==1.17.1
+
+# ─── Dimensionality Reduction & Visualisation ────────────────────────────────
+umap-learn==0.5.7                # UMAP 2-D projection for cluster plots
+matplotlib==3.10.0
+seaborn==0.13.2
+
+# ─── API ─────────────────────────────────────────────────────────────────────
+fastapi==0.135.1
+uvicorn[standard]==0.41.0
+pydantic==2.12.5
+pydantic-settings==2.13.1
+
+# ─── Utilities ───────────────────────────────────────────────────────────────
+tqdm==4.67.3                     # progress bars
+loguru==0.7.3                    # structured logging
+joblib==1.5.3                    # model serialisation
+python-dotenv==1.2.2             # .env support
+
+# ─── Testing ─────────────────────────────────────────────────────────────────
+pytest==9.0.2
+httpx==0.28.1                    # async test client for FastAPI
