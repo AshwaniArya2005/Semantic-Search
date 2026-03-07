@@ -126,7 +126,7 @@ cp .env.example .env
 python scripts/ingest.py
 
 # Or use mini corpus for a quick smoke test (~2 min):
-python scripts/ingest.py --dataset-dir dataset --max-docs 500
+python scripts/ingest.py --dataset-dir dataset --max-docs 1000
 ```
 
 This produces in `artifacts/`:
