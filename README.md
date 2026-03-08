@@ -93,7 +93,7 @@ semantic-search-newsgroups/
 ### 1. Clone & Set Up Environment
 
 ```bash
-git clone <your-repo-url>
+git clone [<your-repo-url>](https://github.com/AshwaniArya2005/Semantic-Search.git)
 cd semantic-search-newsgroups
 
 # Create and activate virtual environment
