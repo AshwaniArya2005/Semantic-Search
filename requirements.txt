@@ -11,8 +11,8 @@ numpy==2.4.2
 scipy==1.17.1
 
 # ─── Dimensionality Reduction & Visualisation ────────────────────────────────
-umap-learn==0.5.7                # UMAP 2-D projection for cluster plots
-matplotlib==3.10.0
+umap-learn==0.5.11               # UMAP 2-D projection for cluster plots
+matplotlib==3.10.8
 seaborn==0.13.2
 
 # ─── API ─────────────────────────────────────────────────────────────────────

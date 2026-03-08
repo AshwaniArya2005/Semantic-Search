@@ -21,6 +21,7 @@ from typing import AsyncGenerator
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from loguru import logger
 
 from config.settings import settings
@@ -107,6 +108,11 @@ via GMM cluster routing.
 
     # ── Routes ─────────────────────────────────────────────────────────────
     app.include_router(router)
+
+    # Automatically redirect root to /docs
+    @app.get("/", include_in_schema=False)
+    async def root_redirect():
+        return RedirectResponse(url="/docs")
 
     return app
 
