@@ -119,45 +119,29 @@ cp .env.example .env
 #   FAISS_NPROBE=10                  (recall vs speed trade-off)
 ```
 
-### 3. Run Ingestion Pipeline
-
-```bash
-# Build FAISS index + GMM model (~10-15 min on CPU for full corpus)
-python scripts/ingest.py
-
-# Or use mini corpus for a quick smoke test (~2 min):
-python scripts/ingest.py --dataset-dir dataset --max-docs 1000
-```
-
-This produces in `artifacts/`:
-- `faiss_index` — FAISS IVFFlat binary index
-- `embeddings.npy` — all document embeddings
-- `gmm_model.pkl` — trained GMM + scaler
-- `pca_model.pkl` — PCA transformer
-- `doc_metadata.pkl` — per-document metadata + cluster probs
-- `cluster_probs.npy` — full `P(cluster|doc)` matrix
-
-### 4. Generate Cluster Plots
-
-```bash
-python scripts/cluster.py --n-samples 5000
-```
-
-Produces in `artifacts/`:
-| Plot | Description |
-|------|-------------|
-| `cluster_plot.png` | UMAP coloured by GMM cluster assignment |
-| `category_plot.png` | UMAP coloured by true newsgroup category |
-| `cluster_probabilities.png` | Heatmap: mean P(cluster\|category) |
-| `entropy_plot.png` | Fuzziness diagnostic — high entropy = multi-topic docs |
-
-### 5. Start the API Server
+### 3. Start the API Server
 
 ```bash
 uvicorn src.api.app:app --reload --port 8000
 ```
 
+> **Note for Reviewers:** If you have not run the ingestion pipeline yet, the server will **automatically download the full 20 Newsgroups dataset** (~17MB) and build the required artifacts (~10-15 minutes on CPU) before starting up. This ensures the service starts cleanly with a single command!
+
 Open **http://localhost:8000/docs** for the interactive Swagger UI.
+
+---
+
+### 4. (Optional) Run Manual Ingestion & Clustering
+
+If you want to run the ingestion on the **full** 20 Newsgroups corpus (~15 mins) or generate the UMAP visualisation plots, you can do so manually:
+
+```bash
+# Build FAISS index + GMM model on the full corpus:
+python scripts/ingest.py
+
+# Generate cluster plots in artifacts/ directory:
+python scripts/cluster.py --n-samples 5000
+```
 
 ---
 

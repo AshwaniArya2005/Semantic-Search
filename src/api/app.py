@@ -48,11 +48,36 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             f"Clusters: {engine._gmm.n_components}"  # type: ignore[union-attr]
         )
     except FileNotFoundError as e:
-        logger.error(
-            f"Startup failed: {e}\n"
-            "→ Run `python scripts/ingest.py` to build the index first."
+        logger.warning(f"Startup - Artifacts missing: {e}")
+        logger.info("Auto-bootstrapping now (downloading dataset & building artifacts)...")
+        
+        import urllib.request
+        from scripts.ingest import run_ingestion
+        
+        # 1. Download dataset if missing
+        tar_path = settings.dataset_dir / "20_newsgroups.tar.gz"
+        if not tar_path.exists():
+            logger.info("Downloading full 20_newsgroups dataset (~17MB)...")
+            settings.dataset_dir.mkdir(parents=True, exist_ok=True)
+            url = "https://kdd.ics.uci.edu/databases/20newsgroups/20_newsgroups.tar.gz"
+            try:
+                urllib.request.urlretrieve(url, tar_path)
+                logger.success("Dataset downloaded.")
+            except Exception as e2:
+                logger.error(f"Failed to download dataset: {e2}")
+                raise
+        
+        # 2. Run ingest
+        logger.info("Running first-time ingestion (this will take ~10-15 minutes on CPU)...")
+        settings.artifacts_dir.mkdir(parents=True, exist_ok=True)
+        run_ingestion(max_docs=None, dataset_dir=settings.dataset_dir)
+        
+        # 3. Reload artifacts
+        engine.load_artifacts()
+        logger.success(
+            f"Auto-bootstrap complete. Docs: {engine._store.n_docs}, "  # type: ignore[union-attr]
+            f"Clusters: {engine._gmm.n_components}"  # type: ignore[union-attr]
         )
-        # Still yield so the server starts (health endpoint returns degraded)
 
     yield  # ← server runs here
 

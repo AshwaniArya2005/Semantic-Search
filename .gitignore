@@ -14,10 +14,6 @@ build/
 venv/
 env/
 
-# Dataset (large binary — download separately)
-dataset/*.tar.gz
-dataset/*.gz
-
 # Artifacts (generated at runtime)
 artifacts/faiss_index/
 artifacts/embeddings.npy
