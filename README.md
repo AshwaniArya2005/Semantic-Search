@@ -125,7 +125,7 @@ cp .env.example .env
 uvicorn src.api.app:app --reload --port 8000
 ```
 
-> **Note for Reviewers:** If you have not run the ingestion pipeline yet, the server will **automatically download the full 20 Newsgroups dataset** (~17MB) and build the required artifacts (~10-15 minutes on CPU) before starting up. This ensures the service starts cleanly with a single command!
+> **Note for Reviewers:** If you have not run the ingestion pipeline yet, the server will **automatically download the mini dataset** (~2MB) and build the required artifacts (~2 minutes) before starting up. This ensures the service starts cleanly with a single command!
 
 Open **http://localhost:8000/docs** for the interactive Swagger UI.
 

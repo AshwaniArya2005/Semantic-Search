@@ -55,11 +55,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         from scripts.ingest import run_ingestion
         
         # 1. Download dataset if missing
-        tar_path = settings.dataset_dir / "20_newsgroups.tar.gz"
+        tar_path = settings.dataset_dir / "mini_newsgroups.tar.gz"
         if not tar_path.exists():
-            logger.info("Downloading full 20_newsgroups dataset (~17MB)...")
+            logger.info("Downloading mini_newsgroups dataset (~2MB)...")
             settings.dataset_dir.mkdir(parents=True, exist_ok=True)
-            url = "https://kdd.ics.uci.edu/databases/20newsgroups/20_newsgroups.tar.gz"
+            url = "https://kdd.ics.uci.edu/databases/20newsgroups/mini_newsgroups.tar.gz"
             try:
                 urllib.request.urlretrieve(url, tar_path)
                 logger.success("Dataset downloaded.")
@@ -68,7 +68,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
                 raise
         
         # 2. Run ingest
-        logger.info("Running first-time ingestion (this will take ~10-15 minutes on CPU)...")
+        logger.info("Running first-time ingestion (this will take ~2 minutes)...")
         settings.artifacts_dir.mkdir(parents=True, exist_ok=True)
         run_ingestion(max_docs=None, dataset_dir=settings.dataset_dir)
         
